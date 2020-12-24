@@ -1,0 +1,4 @@
+/blogServer/node_modules
+/blogWeb/node_modules
+/blogServer/upload/*
+!/blogServer/upload/save.txt
