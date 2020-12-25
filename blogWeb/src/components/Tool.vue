@@ -7,14 +7,22 @@ export default {
   },
   methods: {
     throttle (fn, time = 500) {
-      let timer = null
+      let timer1 = null
+      let timer2 = null
+      let timer3 = null
+      let num = 0
       let vm = this
       return function (...args) {
-        if (!timer) {
+        if (num++ > 5) {
+          if (!timer2) {
+            this.$message({ type: "warning", message: "操作频繁，请稍后再试" })
+            timer2 = setTimeout(() => { timer2 = null }, time)
+          }
+          timer3 && clearTimeout(timer3)
+          timer3 = setTimeout(() => num = 0, time)
+        } else if (!timer1) {
           fn.apply(vm, args)
-          timer = setTimeout(() => {
-            timer = null
-          }, time)
+          timer1 = setTimeout(() => { timer1 = null }, time)
         }
       }
     },

@@ -155,7 +155,7 @@ export default {
             if (data.status) {
               this.$message({ message: "注册成功", type: "success" })
               sessionStorage.setItem("authorization", res.headers.authorization)
-              window.location.replace("/")
+              setTimeout(() => window.location.replace("/"), 500)
             }
           })
         }

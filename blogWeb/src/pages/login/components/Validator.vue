@@ -102,6 +102,7 @@ export default {
     getValidCode () {
       this.$refs.form1.validate((valid) => {
         if (valid) {
+          this.getValidCodeAble = !this.getValidCodeAble
           let params = { account: this.form.account }
           service.getResetPasswordVerifyCode(params).then(res => {
             let data = res.data
@@ -109,7 +110,6 @@ export default {
             if (data.status) {
               this.$message({ type: "success", message: data.message })
               this.editValidCodeAble = true
-              this.getValidCodeAble = !this.getValidCodeAble
               let timer = setInterval(() => {
                 if (!--this.getValidCodeNum) {
                   clearInterval(timer)

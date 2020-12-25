@@ -6,10 +6,10 @@
     <div class="avatar">
       <el-avatar
         :size="150"
-        :src="avatar"
+        :src="info.avatar"
       ></el-avatar>
     </div>
-    <div class="name">{{name}}</div>
+    <div class="name">{{info.name}}</div>
     <el-divider></el-divider>
     <el-row
       type="flex"
@@ -33,8 +33,6 @@ import service from "../../../../service/user.js"
 export default {
   data () {
     return {
-      name: sessionStorage.getItem("name"),
-      avatar: sessionStorage.getItem("avatar"),
       info: ""
     }
   },

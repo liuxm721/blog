@@ -78,8 +78,8 @@ loginApp.post("/getRegisterVerifyCode", async (req, res) => {
 function sendemail (account, tip) {
   let trans = nodemailer.createTransport({
     host: "smtp.ym.163.com",
-    port: 25,
-    secure: false,
+    port: 994,
+    secure: true,
     auth: {
       user: "lxm@mengyuannetwork.com",
       pass: "Lxm301415"

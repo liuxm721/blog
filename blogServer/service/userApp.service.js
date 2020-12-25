@@ -68,6 +68,12 @@ userValidApp.get("/getUserZone", async (req, res) => {
     data: {}
   }
   let select = { key }
+  await userInfoTables.findOne(select).then(data => {
+    if (data) {
+      resData.data.avatar = data.avatar
+      resData.data.name = data.name
+    }
+  })
   await articleTables.find(select).then(data => {
     resData.data.articleNum = data.length
     resData.data.likeNum = data.reduce((total, item) => {

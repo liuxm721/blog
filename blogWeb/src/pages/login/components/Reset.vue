@@ -42,6 +42,7 @@
       <el-form-item>
         <el-button
           @click="submit"
+          :disabled="submitDisabled"
           type="primary"
         >修改</el-button>
       </el-form-item>
@@ -64,6 +65,7 @@ export default {
         password: "",
         confirmPassword: "",
       },
+      submitDisabled: false,
       rules: {
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -81,15 +83,14 @@ export default {
     submit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
+          this.submitDisabled = true
           let form = { password: this.form.password }
           service.resetPassword(form).then(res => {
             let data = res.data
             console.log(data)
             if (data.status) {
               this.$message({ type: "success", message: data.message })
-              setTimeout(() => {
-                window.location.replace("/")
-              }, 1000)
+              setTimeout(() => { window.location.replace("/") }, 500)
             }
           })
         }
