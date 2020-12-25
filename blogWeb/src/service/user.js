@@ -141,7 +141,10 @@ class api {
   async sendMessage (form) {
     return service.post("/validuser/sendMessage", form)
   }
-
+  // 搜索
+  async search (params) {
+    return service.get("/search", { params })
+  }
 
 }
 

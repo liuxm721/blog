@@ -155,7 +155,7 @@ articleApp.get("/getArticleComment", async (req, res) => {
 // 获取评论回复
 articleApp.get("/getCommentReply", async (req, res) => {
   let { article_id, comment_id, page = 1, pageSize = 5 } = req.query
-  let resData = { status: 0, message: "评论回复", data: {} }
+  let resData = { status: 0, message: "获取评论回复", data: {} }
   let select = { article_id }
   let showData = { comments: { $elemMatch: { comment_id } } }
   await articleTables.findOne(select, showData).then(async data => {
@@ -186,23 +186,28 @@ articleApp.get("/getCommentReply", async (req, res) => {
 
 // 搜索
 articleApp.get("/search", async (req, res) => {
-  let { title } = req.query
-
-  let resData = { status: 0, message: "搜索文章失败", data: {} }
-  let select = {
-    title: { $regex: title }
-  }
-  console.log(select)
-  await articleTables.find(select, { _id: false, __v: false }).then(data => {
+  let { title, page, pageSize } = req.query
+  let resData = { status: 0, message: "搜索文章", data: {} }
+  page > 0 || (page = 1)
+  pageSize > 0 || (pageSize = 10)
+  let select = { title: { $regex: title } }
+  await articleTables.find(select, { _id: false, __v: false, content: false }).then(async data => {
     if (data) {
       resData.status = 1
-      resData.message = "所搜文章成功"
-      resData.data.article = data
-      console.log(data)
+      resData.data.total = data.length
+      data.sort((a, b) => b.time - a.time)
+      let article = JSON.parse(JSON.stringify(data.slice((page - 1) * pageSize, page * pageSize)))
+      for (let i in article) {
+        await userInfoTables.findOne({ key: article[i].key }).then(data => {
+          if (data) {
+            article[i].avatar = data.avatar
+            article[i].author = data.name
+          }
+        })
+      }
+      resData.data.article = article
     }
   })
-
-  console.log(resData.message)
   res.send(resData)
 })
 

@@ -8,18 +8,12 @@ export default {
   methods: {
     throttle (fn, time = 500) {
       let timer = null
-      let first = true
       let vm = this
       return function (...args) {
-        if (first) {
-          first = false
-          fn.apply(vm, args)
-          return
-        }
         if (!timer) {
+          fn.apply(vm, args)
           timer = setTimeout(() => {
             timer = null
-            fn.apply(vm, args)
           }, time)
         }
       }

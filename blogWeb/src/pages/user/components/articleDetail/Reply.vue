@@ -1,4 +1,5 @@
 <template>
+
   <div v-if="replyList.length">
     <el-row
       :gutter="20"
@@ -45,20 +46,22 @@
 
 <script>
 import service from "../../../../service/user.js"
+import Tool from "@/components/Tool.vue"
 
 export default {
-  props: ["comment_id"],
+  mixins: [Tool],
+  props: ["comment_id", "article_id", "index", "reply"],
   data () {
     return {
       replyTotal: 0,
       replyPageSize: 5,
-      replyList: []
+      replyList: [],
     }
   },
   methods: {
     getCommentReply (page) {
       let params = {
-        article_id: this.$route.query.article_id,
+        article_id: this.article_id,
         comment_id: this.comment_id,
         pageSize: this.replyPageSize,
         page
@@ -72,34 +75,22 @@ export default {
         }
       })
     },
-    openReply (comment) {
-      this.$emit("openReply", comment, this.replyList)
-    },
     zone (key) {
-      this.$emit("zone", key)
+      this.$router.push({ name: "zone", query: { key } })
+    },
+    openReply (comment) {
+      this.$emit("openReply", comment, this.index)
+    }
+  },
+  watch: {
+    reply (newV) {
+      if (newV) {
+        this.replyList.unshift(newV)
+      }
     }
   },
   mounted () {
     this.getCommentReply(1)
-  },
-  components: {
-
-  },
-  filters: {
-    transtime (value) {
-      let res = ""
-      let time = new Date(value).getTime()
-      let current = new Date().getTime()
-      let parallax = (current - time) / 1000
-      if (parallax > 24 * 60 * 60) {
-        res = new Date(value).toLocaleDateString()
-      } else if (parallax > 60 * 60) {
-        res = Math.floor(parallax / (60 * 60)) + "小时前"
-      } else {
-        res = Math.floor(parallax / 60) + "分钟前"
-      }
-      return res
-    },
   }
 }
 </script>

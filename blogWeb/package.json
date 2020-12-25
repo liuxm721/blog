@@ -44,6 +44,7 @@
     "core-js": "^3.7.0",
     "element-ui": "^2.14.1",
     "highlight.js": "^10.4.0",
+    "uuid": "^8.3.2",
     "v-infinite-scroll": "^1.0.4",
     "vue": "^2.6.12",
     "vue-router": "^3.4.9",

@@ -73,8 +73,10 @@
 <script>
 import service from "../../../../service/user.js"
 import ArticleList from "@/components/ArticleList.vue"
+import Tool from "@/components/Tool.vue"
 
 export default {
+  mixins: [Tool],
   data () {
     return {
       key: this.$route.query.key || "",
@@ -91,7 +93,9 @@ export default {
   },
   methods: {
     chat () {
-      this.$router.push({ path: "/interaction", query: { tab: 3, key: this.key } })
+      if (this.isLogin()) {
+        this.$router.push({ path: "/interaction", query: { tab: 3, key: this.key } })
+      }
     },
     getUserArticleList (page) {
       let params = { key: this.key, page, pageSize: this.pagination.pageSize }
@@ -121,14 +125,16 @@ export default {
       })
     },
     follow () {
-      let params = { key: this.key }
-      service.follow(params).then(res => {
-        let data = res.data
-        console.log(data)
-        if (data.status) {
-          this.interaction.isFollow = true
-        }
-      })
+      if (this.isLogin()) {
+        let params = { key: this.key }
+        service.follow(params).then(res => {
+          let data = res.data
+          console.log(data)
+          if (data.status) {
+            this.interaction.isFollow = true
+          }
+        })
+      }
     },
     unFollow () {
       let params = { key: this.key }

@@ -41,7 +41,7 @@
     <!-- 回复窗口 -->
     <el-row
       :gutter="20"
-      id="reply-form"
+      id="reply-form1"
       v-show="replyForm.visible"
     >
       <el-col :span="2">
@@ -80,7 +80,7 @@
     <el-row
       :gutter="20"
       v-for="(item, index) in comments"
-      :key="index"
+      :key="item.comment_id"
     >
       <el-col :span="2">
         <el-avatar :src="item.from.avatar"></el-avatar>
@@ -96,10 +96,13 @@
           <el-button
             type="text"
             size="mini"
-            @click="openReply(item)"
+            @click="openReply(item, index)"
           >回复</el-button>
           <Reply
             :comment_id="item.comment_id"
+            :article_id="item.article_id"
+            :index="index"
+            :reply="item.reply"
             @openReply="openReply"
             @zone="zone"
           ></Reply>
@@ -124,6 +127,7 @@
 import service from "../../../../service/user.js"
 import Reply from "./Reply.vue"
 import Tool from "@/components/Tool.vue"
+import { v4 } from "uuid"
 
 export default {
   mixins: [Tool],
@@ -134,6 +138,7 @@ export default {
       rules: { required: true, message: "内容不能为空", trigger: "blur" },
       commentTotal: 0,
       commentPageSize: 10,
+      index: "",
       replyForm: {
         el: "",
         visible: false,
@@ -145,6 +150,7 @@ export default {
       },
       commentForm: {
         article_id: this.$route.query.article_id,
+        comment_id: "",
         content: "",
       },
     }
@@ -153,20 +159,26 @@ export default {
     uploadComment () {
       this.$refs.commentForm.validate((valid) => {
         if (this.isLogin() && valid) {
+          this.commentForm.comment_id = v4()
           service.uploadComment({ comment: this.commentForm }).then((res) => {
             let data = res.data
             console.log(data)
             if (data.status) {
-              this.getArticleComment()
               this.comments.unshift({
-                content: this.replyForm.content,
+                article_id: this.commentForm.article_id,
+                comment_id: this.commentForm.comment_id,
+                content: this.commentForm.content,
+                time: new Date(),
                 from: {
                   avatar: sessionStorage.getItem("avatar"),
                   key: sessionStorage.getItem("key"),
                   name: sessionStorage.getItem("name")
                 }
               })
+              this.commentForm.content = ""
+              this.$message({ type: "success", message: "评论成功" })
             }
+            console.log(this.comments)
           })
         }
       })
@@ -186,14 +198,26 @@ export default {
               let data = res.data
               console.log(data)
               if (data.status) {
+                this.replyForm.content = ""
+                this.$message({ type: "success", message: "回复成功" })
+                form.to = this.comments[this.index].from
+                form.from = {
+                  name: sessionStorage.getItem("name"),
+                  key: sessionStorage.getItem("key"),
+                  avatar: sessionStorage.getItem("avatar")
+                }
+                form.time = new Date()
+                this.$set(this.comments[this.index], "reply", form)
+                this.replyForm.visible = false
               }
             })
           }
         })
       }
     },
-    openReply (comment) {
+    openReply (comment, index) {
       if (this.isLogin()) {
+        this.index = index
         this.replyForm.visible = true
         event.target.parentNode.parentNode.append(this.replyForm.el)
         this.replyForm.placeholder = "回复 " + comment.from.name
@@ -226,25 +250,9 @@ export default {
     }
   },
   mounted () {
-    this.replyForm.el = document.querySelector(`#reply-form`)
+    this.replyForm.el = document.querySelector(`#reply-form1`)
     this.getArticleComment()
-  },
-  filters: {
-    transtime (value) {
-      let res = ""
-      let time = new Date(value).getTime()
-      let current = new Date().getTime()
-      let parallax = (current - time) / 1000
-      if (parallax > 24 * 60 * 60) {
-        res = new Date(value).toLocaleDateString()
-      } else if (parallax > 60 * 60) {
-        res = Math.floor(parallax / (60 * 60)) + "小时前"
-      } else {
-        res = Math.floor(parallax / 60) + "分钟前"
-      }
-      return res
-    },
-  },
+  }
 };
 </script>
 

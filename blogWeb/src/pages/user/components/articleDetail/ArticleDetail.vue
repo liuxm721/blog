@@ -139,7 +139,7 @@ export default {
       })
     },
     collection () {
-      if (isLogin()) {
+      if (this.isLogin()) {
         let form = { article_id: this.article.article_id }
         service.collection(form).then(res => {
           let data = res.data

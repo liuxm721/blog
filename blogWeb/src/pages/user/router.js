@@ -78,7 +78,7 @@ let routes = [
 
 let router = new VueRouter({ routes })
 
-let visitor = ["/square", "/articledetail"]
+let visitor = ["/square", "/articledetail", "/search", "/zone"]
 
 router.beforeEach((to, from, next) => {
   if (sessionStorage.getItem("authorization")) {
