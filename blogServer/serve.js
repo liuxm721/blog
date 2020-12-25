@@ -39,6 +39,8 @@ app.all(path.join(publicConfig.baseUrl, publicConfig.validUser, "*"), (req, res,
 })
 
 
+app.use("/", express.static("./dist"))
+
 // add service
 const { fsValidApp, fsApp } = require("./service/fsApp.service.js")
 const { loginApp, loginValidApp } = require("./service/loginApp.service.js")

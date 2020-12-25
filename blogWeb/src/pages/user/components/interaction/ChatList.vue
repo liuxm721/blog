@@ -131,7 +131,7 @@ export default {
       this.$message({ type: "waring", message: "已退出聊天室" })
     },
     onError (key) {
-      this.ws = new WebSocket("ws://192.168.3.78:8090/chat?key=" + key)
+      this.ws = new WebSocket("wss://shop.weiaiyanyan.com/chat?key=" + key)
       this.$message({ type: "danger", message: "连接失败，重连中..." })
     },
     onMessage (event) {
@@ -176,11 +176,22 @@ export default {
       }
     },
     initWebSocket (key) {
-      this.ws = new WebSocket("ws://192.168.3.78:8090/chat?key=" + key)
+      this.ws = new WebSocket("wss://shop.weiaiyanyan.com/chat?key=" + key)
       this.ws.addEventListener("message", this.onMessage)
       this.ws.addEventListener("open", this.onOpen)
       this.ws.addEventListener("close", this.onClose)
       this.ws.addEventListener("error", this.onError, key)
+      this.heartCheck(key)
+    },
+    heartCheck (key) {
+      setInterval(() => {
+        console.log("再也不掉线了")
+        if (this.ws.readyState === 1) {
+          this.ws.send(JSON.stringify({ message: 'ping' }))
+        } else {
+          this.initWebSocket(key)
+        }
+      }, 1000 * 56)
     },
     sendMessage () {
       this.$refs.form.validate(vlid => {

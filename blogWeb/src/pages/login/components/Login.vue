@@ -7,7 +7,7 @@
     <el-form-item prop="account">
       <el-input
         v-model="form.account"
-        placeholder="账号"
+        placeholder="邮箱"
       ><i
           class="iconfont icon-yonghuming"
           slot="prepend"

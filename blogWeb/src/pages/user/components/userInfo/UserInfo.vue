@@ -125,7 +125,7 @@ export default {
     },
     changeAvatarSuccess (res) {
       console.log(res)
-      let form = { avatar: res.data.img }
+      let form = { avatar: service.getImgUrl(res.data.img) }
       service.changeUserAvatar(form).then(res => {
         let data = res.data
         console.log(data)

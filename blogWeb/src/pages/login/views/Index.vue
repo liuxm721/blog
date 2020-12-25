@@ -29,13 +29,13 @@
           <!-- logo -->
           <el-row
             type="flex"
-            id="logo" 
+            id="logo"
           >
             <el-image
               :src="logo"
               fit="cover"
             ></el-image>
-            <span>深壹博客</span>
+            <span>梦渊博客</span>
           </el-row>
           <!-- switch module -->
           <router-view></router-view>
@@ -66,15 +66,15 @@
   </el-row>
 </template>
 <script>
-import loginBg from "../../../assets/img/login_bg.jpg";
-import logo from "../../../assets/img/logo.png";
+import loginBg from "../../../assets/img/login_bg.jpg"
+import logo from "../../../assets/img/logo.png"
 export default {
-  data() {
+  data () {
     return {
       loginBg,
       logo,
       flag: true,
-    };
+    }
   },
 };
 </script>

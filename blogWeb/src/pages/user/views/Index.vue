@@ -10,7 +10,7 @@
       >
         <div id="logo">
           <el-image :src="logo"></el-image>
-          <span>深壹博客</span>
+          <span>梦渊博客</span>
         </div>
         <el-input
           style="width: 50%"
@@ -36,7 +36,7 @@
         </el-dropdown>
         <el-link
           v-else
-          href="http://192.168.3.78/login.html"
+          href="/login.html"
         >登录/注册</el-link>
       </el-row>
     </el-header>
@@ -157,12 +157,23 @@ export default {
       })
     },
     initWebSocket (key) {
-      this.ws = new WebSocket("ws://192.168.3.78:8090/notice?key=" + key)
+      this.ws = new WebSocket("wss://shop.weiaiyanyan.com/notice?key=" + key)
       this.ws.addEventListener("message", this.onMessage)
       this.ws.addEventListener("open", this.onOpen)
       this.ws.addEventListener("close", this.onClose)
       this.ws.addEventListener("error", this.onError)
-      this.tipChatNotice = this.throttle(this.notify, 1000 * 60)
+      this.tipChatNotice = this.throttle(this.notify, 1000 * 30)
+      this.heartCheck(key)
+    },
+    heartCheck (key) {
+      setInterval(() => {
+        console.log("再也不掉线了")
+        if (this.ws.readyState === 1) {
+          this.ws.send(JSON.stringify({ message: 'ping' }))
+        } else {
+          this.initWebSocket(key)
+        }
+      }, 1000 * 56)
     },
     onMessage (event) {
       let data = JSON.parse(event.data)
@@ -172,13 +183,13 @@ export default {
       }
     },
     onOpen () {
-      this.$message({ type: "success", message: "连接成功" })
+      this.$message({ type: "success", message: "通知开启" })
     },
     onClose () {
-      this.$message({ type: "waring", message: "连接关闭" })
+      this.$message({ type: "waring", message: "通知关闭" })
     },
     onError () {
-      this.ws = new WebSocket("ws://192.168.3.78:8090/chat?key=" + this.user.slef.key)
+      this.ws = new WebSocket("wss://shop.weiaiyanyan.com/chat?key=" + this.user.slef.key)
       this.$message({ type: "danger", message: "连接失败，重连中..." })
     },
     notify (type = "success", title = "无标题", message = "无消息") {

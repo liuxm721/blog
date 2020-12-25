@@ -29,33 +29,20 @@ let fields = upload.fields([
 // 上传文章封面
 fsValidApp.post("/uploadArticleCover", upload.single("cover"), (req, res) => {
   let resData = { status: 0, message: "上传图片失败", data: {} }
-  console.log(url.format({
-    protocol: "http",
-    host: `${publicConfig.host}:${publicConfig.port}`,
-  }))
   if (req.file) {
     resData.status = 1
     resData.message = "上传封面成功"
-    resData.data.img = url.resolve(
-      url.format({ protocol: "http", host: `${publicConfig.host}:${publicConfig.port}` }),
-      path.resolve(publicConfig.baseUrl, "getImg?id=", req.file.filename))
+    resData.data.img = req.file.filename
   }
   res.send(resData)
 })
 
-// 上传头像封面
+// 上传头像
 fsValidApp.post("/uploadUserAvatar", upload.single("avatar"), (req, res) => {
-  let resData = { status: 0, message: "上传头像失败", data: {} }
-  console.log(url.format({
-    protocol: "http",
-    host: `${publicConfig.host}:${publicConfig.port}`,
-  }))
+  let resData = { status: 0, message: "上传头像", data: {} }
   if (req.file) {
     resData.status = 1
-    resData.message = "上传封面成功"
-    resData.data.img = url.resolve(
-      url.format({ protocol: "http", host: `${publicConfig.host}:${publicConfig.port}` }),
-      path.resolve(publicConfig.baseUrl, "getImg?id=", req.file.filename))
+    resData.data.img = req.file.filename
   }
   res.send(resData)
 })

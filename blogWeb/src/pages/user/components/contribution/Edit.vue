@@ -164,8 +164,8 @@ export default {
       this.$refs.uploadCover.submit()
     },
     uploadSuccess (res) {
-      this.article.cover = res.data.img
       console.log(res.data.img)
+      this.article.cover = service.getImgUrl(res.data.img)
       this.$message({ type: "success", message: res.message })
     },
     changImg (file, fileList) {

@@ -11,14 +11,14 @@ VueRouter.prototype.push = function push (location) {
 
 import Index from "./views/Index.vue"
 import Square from "./components/square/Square.vue"
-import Follow from "./components/follow/Follow.vue"
-import Contribution from "./components/contribution/Contribution.vue"
-import MyArticle from "./components/myArticle/MyArticle.vue"
-import ArticleDetail from "./components/articleDetail/ArticleDetail.vue"
-import Search from "./components/search/Search.vue"
-import Interaction from "./components/interaction/Interaction.vue"
-import Zone from "./components/zone/Zone.vue"
-import UserInfo from "./components/userInfo/UserInfo.vue"
+// import Follow from "./components/follow/Follow.vue"
+// import Contribution from "./components/contribution/Contribution.vue"
+// import MyArticle from "./components/myArticle/MyArticle.vue"
+// import ArticleDetail from "./components/articleDetail/ArticleDetail.vue"
+// import Search from "./components/search/Search.vue"
+// import Interaction from "./components/interaction/Interaction.vue"
+// import Zone from "./components/zone/Zone.vue"
+// import UserInfo from "./components/userInfo/UserInfo.vue"
 
 let routes = [
   {
@@ -34,42 +34,42 @@ let routes = [
       {
         path: "articledetail",
         name: "articledetail",
-        component: ArticleDetail
+        component: () => import("./components/articleDetail/ArticleDetail.vue")
       },
       {
         path: "follow",
         name: "follow",
-        component: Follow
+        component: () => import("./components/follow/Follow.vue")
       },
       {
         path: "contribution",
         name: "contribution",
-        component: Contribution
+        component: () => import("./components/contribution/Contribution.vue")
       },
       {
         path: "myarticle",
         name: "myarticle",
-        component: MyArticle
+        component: () => import("./components/myArticle/MyArticle.vue")
       },
       {
         path: "search",
         name: "search",
-        component: Search
+        component: () => import("./components/search/Search.vue")
       },
       {
         path: "interaction",
         name: "interaction",
-        component: Interaction,
+        component: () => import("./components/interaction/Interaction.vue")
       },
       {
         path: "zone",
         name: "zone",
-        component: Zone
+        component: () => import("./components/zone/Zone.vue")
       },
       {
         path: "userinfo",
         name: "userinfo",
-        component: UserInfo
+        component: () => import("./components/userInfo/UserInfo.vue")
       }
     ]
 

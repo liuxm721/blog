@@ -42,13 +42,17 @@ class api {
   async getUserArticleState (params) {
     return service.get("/validuser/getUserArticleState", { params })
   }
-  // 获取文章封面上传地址
+  // 获取文章封面上传api
   getUploadArticleCoverUrl () {
     return service.defaults.baseURL + "/validuser/uploadArticleCover"
   }
-  // 获取用户头像上传地址
+  // 获取用户头像上传api
   uploadUserAvatar () {
     return service.defaults.baseURL + "/validuser/uploadUserAvatar"
+  }
+  // 获取服务器图片资源
+  getImgUrl (id) {
+    return service.defaults.baseURL + "/getimg?id=" + id
   }
   // 获取文章
   async getArticleList (params) {
