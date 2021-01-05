@@ -8,7 +8,8 @@ let devCfg = {
     devServer: {
         contentBase: path.resolve(__dirname, "..", "dist"),
         host: "0.0.0.0",
-        port: 80
+        port: 80,
+        disableHostCheck: true,
     }
 }
 module.exports = merge(devCfg, commonCfg)

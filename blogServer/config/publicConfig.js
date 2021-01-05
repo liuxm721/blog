@@ -3,5 +3,6 @@ const publicConfig = {
   port: 8080,
   baseUrl: "/api/v1",
   validUser: "validuser",
+  validAdmin: 'validadmin'
 }
 module.exports = { publicConfig }

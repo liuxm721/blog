@@ -1,7 +1,5 @@
 const express = require("express")
 const path = require("path")
-const url = require("url")
-const { publicConfig } = require("../config/publicConfig.js")
 const { v4 } = require("uuid")
 const fs = require("fs")
 
@@ -10,11 +8,10 @@ let fsApp = express()
 
 // add plugin
 const multer = require("multer")
-const { userInfoTables } = require("../db/userTables.js")
 let upload = multer({
   storage: multer.diskStorage({
     destination (req, file, cb) {
-      cb(null, "./upload")
+      cb(null, path.resolve(__dirname, "../upload"))
     },
     filename (req, file, cb) {
       cb(null, v4() + file.originalname)

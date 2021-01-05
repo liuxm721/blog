@@ -23,7 +23,7 @@
             @click="searchArticle"
           ></el-button>
         </el-input>
-        <el-dropdown v-if="isUser">
+        <el-dropdown v-if="user.power.user">
           <el-avatar :src="user.avatar"></el-avatar>
           <el-dropdown-menu>
             <el-dropdown-item>
@@ -56,12 +56,21 @@
             @select="selectMenu"
           >
             <el-menu-item
-              v-for="(item, index) in nav"
-              :key="index"
-              :index="item.route"
-              :route="item.route"
-            >{{item.text}}</el-menu-item>
-
+              index="square"
+              route="square"
+            >广场</el-menu-item>
+            <div v-if="user.power.user">
+              <el-menu-item
+                v-for="(item, index) in nav"
+                :key="index"
+                :index="item.route"
+                :route="item.route"
+              >{{item.text}}</el-menu-item>
+            </div>
+            <el-menu-item
+              v-if="user.power.admin"
+              index="siteadmin"
+            >站点管理</el-menu-item>
           </el-menu>
         </el-col>
 
@@ -107,7 +116,6 @@ export default {
       tipChatNotice: null,
       tipLoginMessage: "",
       nav: [
-        { text: "广场", route: "square" },
         { text: "动态", route: "follow" },
         { text: "互动消息", route: "interaction" },
         { text: "编辑投稿", route: "contribution" },
@@ -121,22 +129,16 @@ export default {
       this.checkedMenu = this.$router.name
     }
   },
-  computed: {
-    isUser () {
-      return !!this.user.power.includes("user")
-    },
-  },
   methods: {
     logout () {
-      sessionStorage.removeItem("authorization")
-      sessionStorage.removeItem("avatar")
-      sessionStorage.removeItem("account")
+      sessionStorage.clear()
       this.$router.go(0)
     },
     searchArticle () {
       this.$router.push("/search?title=" + this.search)
     },
     selectMenu (index) {
+      index === 'siteadmin' && window.location.replace('/admin.html')
       if (index !== "square" && !sessionStorage.getItem("authorization")) {
         this.tipLoginMessage("warning", "请登录")
       }

@@ -22,8 +22,8 @@ let userAccount = new mongoose.Schema({
     default: ""
   },
   power: {
-    type: String,
-    default: "user"
+    type: Object,
+    default: { user: true, admin: false }
   }
 })
 

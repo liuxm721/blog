@@ -1,11 +1,12 @@
 <template>
   <div>
-    <router-view></router-view>
+    用户管理
   </div>
 </template>
 
 <script>
 export default {
+  name: 'useradmin',
   data () {
     return {
 
@@ -21,5 +22,4 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "@/assets/css/init.css";
 </style>

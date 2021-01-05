@@ -1,11 +1,12 @@
 <template>
   <div>
-    <router-view></router-view>
+    大概数据
   </div>
 </template>
 
 <script>
 export default {
+  name: "siteData",
   data () {
     return {
 
@@ -21,5 +22,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "@/assets/css/init.css";
 </style>
+

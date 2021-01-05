@@ -61,7 +61,7 @@ let article = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  // 审核
+  // 审核 review：审核中；pass：审核通过；fail：失败；
   approved: {
     type: String,
     default: "review"

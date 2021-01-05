@@ -37,9 +37,19 @@ app.all(path.join(publicConfig.baseUrl, publicConfig.validUser, "*"), (req, res,
     }
   })
 })
-
-
-app.use("/", express.static("./dist"))
+app.all(path.join(publicConfig.baseUrl, publicConfig.validAdmin, "*"), (req, res, next) => {
+  console.log("验证管理员：", req.body)
+  let token = req.headers.authorization
+  userAccountTables.findOne({ token }, { _id: false, __v: false, password: false }).then(data => {
+    if (data && data.power.admin) {
+      req.body.user = data
+      res.send({ status: 0, message: "不是管理员" })
+      // next()
+    } else {
+      res.send({ status: 0, message: "不是管理员" })
+    }
+  })
+})
 
 // add service
 const { fsValidApp, fsApp } = require("./service/fsApp.service.js")

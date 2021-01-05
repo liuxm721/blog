@@ -89,5 +89,25 @@ module.exports = {
         alias: {
             "@": path.resolve(__dirname, "../src")
         }
-    }
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                default: {
+                    name: true,
+                    chunks: "all",
+                    minChunks: 2,
+                    priority: -2,
+                    reuseExistingChunk: true
+                },
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    minChunks: 1,
+                    chunks: "all",
+                    priority: -10
+                }
+            }
+        }
+    },
+
 }
