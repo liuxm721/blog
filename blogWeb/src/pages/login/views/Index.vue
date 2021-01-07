@@ -58,8 +58,8 @@
             type="info"
             :underline="false"
             target="blank"
-            href="https://beian.tianyancha.com/"
-          >备案信息</el-link>
+            href="https://beian.miit.gov.cn"
+          >互联网ICP备案：黔ICP备19012207号-3</el-link>
         </el-col>
       </el-row>
     </el-col>

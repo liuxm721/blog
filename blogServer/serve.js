@@ -43,8 +43,7 @@ app.all(path.join(publicConfig.baseUrl, publicConfig.validAdmin, "*"), (req, res
   userAccountTables.findOne({ token }, { _id: false, __v: false, password: false }).then(data => {
     if (data && data.power.admin) {
       req.body.user = data
-      res.send({ status: 0, message: "不是管理员" })
-      // next()
+      next()
     } else {
       res.send({ status: 0, message: "不是管理员" })
     }
@@ -59,6 +58,7 @@ const { articleApp, articleValidApp } = require("./service/articleApp.service.js
 const { draftValidApp } = require("./service/draftApp.service.js")
 const { interactionApp } = require("./service/interactionApp.service.js")
 const { chatApp } = require("./service/chatApp.service.js")
+const { adminValidApp } = require("./service/admin.App.service.js")
 
 app.use(path.join(publicConfig.baseUrl), fsApp)
 app.use(path.join(publicConfig.baseUrl, publicConfig.validUser), fsValidApp)
@@ -71,6 +71,7 @@ app.use(path.join(publicConfig.baseUrl, publicConfig.validUser), articleValidApp
 app.use(path.join(publicConfig.baseUrl, publicConfig.validUser), draftValidApp)
 app.use(path.join(publicConfig.baseUrl, publicConfig.validUser), interactionApp)
 app.use(path.join(publicConfig.baseUrl, publicConfig.validUser), chatApp)
+app.use(path.join(publicConfig.baseUrl, publicConfig.validAdmin), adminValidApp)
 
 app.listen(publicConfig.port, publicConfig.host)
 

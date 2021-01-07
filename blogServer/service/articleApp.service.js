@@ -2,6 +2,7 @@ const expree = require("express")
 const articleTables = require("../db/articleTables.js")
 const { v4 } = require("uuid")
 const { userInfoTables, userInteractionTables } = require("../db/userTables.js")
+const { siteAdminTable } = require("../db/siteAdmin.js")
 
 
 let articleValidApp = expree()
@@ -241,6 +242,19 @@ articleApp.post("/getUserArticleList", async (req, res) => {
       }
     })
   }
+  res.send(resData)
+})
+
+// 获取文章分类
+articleApp.get('/getArticleType', async (req, res) => {
+  let resData = { status: 0, message: '获取文章分类', data: {} }
+  let select = { type: { $exists: true } }
+  await siteAdminTable.findOne(select).then(data => {
+    if (data) {
+      resData.status = 1
+      resData.data.types = data.type
+    }
+  })
   res.send(resData)
 })
 

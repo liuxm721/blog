@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import service from '../../../service/admin.js'
 export default {
   name: 'useradmin',
   data () {
@@ -13,11 +14,19 @@ export default {
     }
   },
   methods: {
-
+    getAllUser () {
+      service.getAllUser().then(res => {
+        let data = res.data
+        console.log(data)
+      })
+    }
   },
   components: {
 
-  }
+  },
+  mounted () {
+    this.getAllUser()
+  },
 }
 </script>
 

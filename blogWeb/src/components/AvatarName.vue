@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     zone () {
-      this.$router.push({ name: "zone", query: { key: this.userKey } })
+      this.userKey && this.$router.push({ name: "zone", query: { key: this.userKey } })
     }
   },
 }

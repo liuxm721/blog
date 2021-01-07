@@ -2,7 +2,7 @@
   <div>
     <div style="margin-bottom: 20px;">
       <el-button
-        size='mini'
+        size="mini"
         @click="refresh"
       >刷新</el-button>
     </div>
@@ -30,12 +30,7 @@
         >查看</el-button>
         <el-button
           size="mini"
-          type="success"
-          @click="pass(scope.$index, scope.row)"
-        >通过</el-button>
-        <el-button
-          size="mini"
-          type="warning"
+          type="danger"
           @click.stop="fail(scope.$index, scope.row)"
         >不通过</el-button>
         <TipButton
@@ -93,20 +88,20 @@ export default {
         }
       })
     },
-    pass (index, article) {
+    deleteArticle (index, article) {
       let form = { article_id: article.article_id }
-      service.articlePass(form).then(res => {
+      service.deleteArticle(form).then(res => {
         let data = res.data
         console.log(data)
         if (data.status) {
-          this.$message({ type: 'success', message: '通过审核' })
+          this.$message({ type: 'success', message: '删除文章成功' })
           this.articleList.splice(index, 1)
         }
       })
     },
     getArticle (page) {
       this.page = page
-      let params = { page, pageSize: this.pageSize, approved: 'review' }
+      let params = { page, pageSize: this.pageSize, approved: 'pass' }
       service.getArticle(params).then(res => {
         let data = res.data
         console.log(data)
@@ -126,18 +121,7 @@ export default {
           this.dialogVisible = true
         }
       })
-    },
-    deleteArticle (index, article) {
-      let form = { article_id: article.article_id }
-      service.deleteArticle(form).then(res => {
-        let data = res.data
-        console.log(data)
-        if (data.status) {
-          this.$message({ type: 'success', message: '删除文章成功' })
-          this.articleList.splice(index, 1)
-        }
-      })
-    },
+    }
   },
   components: {
     ArticlePreview,

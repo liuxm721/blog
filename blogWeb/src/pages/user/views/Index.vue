@@ -88,6 +88,32 @@
 
       </el-row>
     </el-row>
+    <el-footer
+      id="footer"
+      height="auto"
+    >
+      <el-row>
+        <el-col
+          class="hidden-sm-and-down"
+          :span="12"
+        >
+          <el-link
+            type="info"
+            :underline="false"
+            href="https://www.microsoft.com/zh-cn/edge"
+            target="blank"
+          >推荐使用 新版 Microsoft Edge 浏览器 访问本站</el-link>
+        </el-col>
+        <el-col :span="12">
+          <el-link
+            type="info"
+            :underline="false"
+            target="blank"
+            href="https://beian.miit.gov.cn"
+          >互联网ICP备案：黔ICP备19012207号-3</el-link>
+        </el-col>
+      </el-row>
+    </el-footer>
   </el-container>
 </template>
 
@@ -96,6 +122,7 @@ import logo from "../../../assets/img/logo.png"
 import RightAside from "../components/rightAside/RightAside.vue"
 import service from "../../../service/user.js"
 import Tool from "@/components/Tool.vue"
+import config from '../../../config.js'
 
 export default {
   mixins: [Tool],
@@ -159,7 +186,7 @@ export default {
       })
     },
     initWebSocket (key) {
-      this.ws = new WebSocket("wss://shop.weiaiyanyan.com/notice?key=" + key)
+      this.ws = new WebSocket(config.noticeURL + key)
       this.ws.addEventListener("message", this.onMessage)
       this.ws.addEventListener("open", this.onOpen)
       this.ws.addEventListener("close", this.onClose)
@@ -238,5 +265,13 @@ export default {
 .width {
   width: 1200px;
   margin: 0 auto;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
 }
 </style>

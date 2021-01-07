@@ -2,7 +2,7 @@
   <div>
     <div style="margin-bottom: 20px;">
       <el-button
-        size='mini'
+        size="mini"
         @click="refresh"
       >刷新</el-button>
     </div>
@@ -33,16 +33,11 @@
           type="success"
           @click="pass(scope.$index, scope.row)"
         >通过</el-button>
-        <el-button
-          size="mini"
-          type="warning"
-          @click.stop="fail(scope.$index, scope.row)"
-        >不通过</el-button>
         <TipButton
           size='mini'
           type='danger'
-          placement='top'
           label='删除'
+          placement='top'
           @confirm='deleteArticle(scope.$index, scope.row)'
         ></TipButton>
       </el-table-column>
@@ -82,13 +77,13 @@ export default {
     refresh () {
       this.getArticle(this.page)
     },
-    fail (index, article) {
+    deleteArticle (index, article) {
       let form = { article_id: article.article_id }
-      service.articleFail(form).then(res => {
+      service.deleteArticle(form).then(res => {
         let data = res.data
         console.log(data)
         if (data.status) {
-          this.$message({ type: 'success', message: '未通过审核' })
+          this.$message({ type: 'success', message: '删除成功' })
           this.articleList.splice(index, 1)
         }
       })
@@ -106,7 +101,7 @@ export default {
     },
     getArticle (page) {
       this.page = page
-      let params = { page, pageSize: this.pageSize, approved: 'review' }
+      let params = { page, pageSize: this.pageSize, approved: 'fail' }
       service.getArticle(params).then(res => {
         let data = res.data
         console.log(data)
@@ -126,18 +121,7 @@ export default {
           this.dialogVisible = true
         }
       })
-    },
-    deleteArticle (index, article) {
-      let form = { article_id: article.article_id }
-      service.deleteArticle(form).then(res => {
-        let data = res.data
-        console.log(data)
-        if (data.status) {
-          this.$message({ type: 'success', message: '删除文章成功' })
-          this.articleList.splice(index, 1)
-        }
-      })
-    },
+    }
   },
   components: {
     ArticlePreview,

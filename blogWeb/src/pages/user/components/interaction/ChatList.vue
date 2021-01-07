@@ -84,6 +84,7 @@
 <script>
 import service from "../../../../service/user.js"
 import Tool from "@/components/Tool.vue"
+import config from "../../../../config.js"
 
 export default {
   mixins: [Tool],
@@ -176,7 +177,7 @@ export default {
       }
     },
     initWebSocket (key) {
-      this.ws = new WebSocket("wss://shop.weiaiyanyan.com/chat?key=" + key)
+      this.ws = new WebSocket(config.chatURL + key)
       this.ws.addEventListener("message", this.onMessage)
       this.ws.addEventListener("open", this.onOpen)
       this.ws.addEventListener("close", this.onClose)

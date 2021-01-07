@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 let siteAdmin = mongoose.Schema({
   type: {
     type: Array,
-    default: ["front", "back"]
+    default: []
   }
 })
 

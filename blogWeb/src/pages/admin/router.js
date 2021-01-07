@@ -22,11 +22,13 @@ const routes = [
 const router = new VueRouter({ routes })
 
 router.beforeEach((to, from, next) => {
-  service.validAdmin().then(res => {
+  service.getAdmin().then(res => {
     let data = res.data
     console.log(data)
+    if (data.status) {
+      next()
+    }
   })
-  next()
 })
 
 export default router
